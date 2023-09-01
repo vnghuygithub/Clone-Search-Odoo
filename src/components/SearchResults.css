@@ -1,0 +1,10 @@
+.search-results {
+    padding: 10px;
+    margin-top: 10px;
+    width: 250px;
+    background-color:darkgray;
+    border-radius: 8px;
+    height: 200px;
+    overflow-y: scroll ;
+    cursor: pointer;
+}
