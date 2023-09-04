@@ -1,7 +1,33 @@
 .result-list {
-    margin-top: 10px;
-    width: 500px;
-    height: 400px;
-    background-color:beige;
-    border-radius: 8px;
+  margin-top: 10px;
+  width: 800px;
+  height: 100%;
+  background-color: beige;
+  border-radius: 8px;
+  padding: 10px;
+  overflow-y: scroll;
+}
+
+.result-list table {
+  width: 100%; /* Đặt chiều rộng của bảng thành 100% */
+}
+
+.result-list td {
+  width: 20%; /* Đặt chiều rộng của mỗi cột thành 20% */
+  padding: 8px; /* Tùy chỉnh khoảng cách giữa nội dung và khung của ô */
+  border: 1px solid #ddd; /* Đặt đường viền cho ô */
+  text-align: left; /* Căn chỉnh văn bản sang trái trong ô */
+}
+
+.result-list td:nth-child(2) {
+  width: 10%;
+}
+.result-list td:nth-child(3) {
+  width: 15%;
+}
+.result-list td:nth-child(4) {
+  width: 39%;
+}
+.result-list td:nth-child(5) {
+  width: 16%;
 }

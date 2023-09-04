@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./SearchResults.css";
 
-function SearchResult({
-  results,
-  fieldsNames,
-  searchValue,
-  setSelectedFieldName,
-}) {
-  // Hàm xử lý sự kiện khi người dùng nhấp vào tên trường
-  const handleFieldNameClick = (fieldsName) => {
-    // Gọi hàm để cập nhật biến trạng thái
-    setSelectedFieldName(fieldsName);
-    console.log(fieldsName);
+function SearchResult({ fieldsNames, searchValue, setFinalResults }) {
+  const [clickedFieldName, setClickedFieldName] = useState(null);
+
+  useEffect(() => {
+    const fetchData = () => {
+      if (!searchValue) {
+        return; // Không gọi fetch nếu searchValue không tồn tại
+      }
+
+      let apiUrl = `http://localhost:3000/employees?${clickedFieldName}_like=${searchValue}`;
+
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((json) => {
+          const results = json;
+          console.log(results);
+          setFinalResults(results);
+        });
+    };
+
+    fetchData(); // Gọi fetchData khi clickedFieldName hoặc searchValue thay đổi
+  }, [clickedFieldName, searchValue]);
+
+  const handleFieldNameClick = (fieldName) => {
+    setClickedFieldName(fieldName);
   };
 
   return (
@@ -20,7 +34,7 @@ function SearchResult({
         {fieldsNames.map((fieldsName, id) => {
           return (
             <div key={id} onClick={() => handleFieldNameClick(fieldsName)}>
-              Tim kiem <strong>{fieldsName}</strong> cho "{searchValue}"
+              Tìm kiếm <strong>{fieldsName}</strong> cho "{searchValue}"
             </div>
           );
         })}

@@ -7,19 +7,21 @@ import SearchResultList from './components/SearchResultList';
 function App() {
 
   const [results, setResults] = useState([])
+  const [finalResults, setFinalResults] = useState([])
   const [fieldsNames, setFieldsNames] = useState([])
   const [searchValue, setSearchValue] = useState("");
-  const [selectedFieldName, setSelectedFieldName] = useState(null); // Khởi tạo bằng null hoặc một giá trị mặc định
 
   const handleSearchValueChange = (value) => {
     setSearchValue(value);
   };
 
+  console.log(finalResults);
+
   return (
     <div className='container' style={{background: "grey", height: 360}}>
       <SearchBar setResults={setResults} setFieldsNames={setFieldsNames} onInputChange={handleSearchValueChange} />
-      <SearchResult results={results} fieldsNames={fieldsNames} searchValue={searchValue} setSelectedFieldName={setSelectedFieldName} />
-      <SearchResultList selectedFieldName={selectedFieldName} searchValue={searchValue}/>
+      <SearchResult results={results} fieldsNames={fieldsNames} searchValue={searchValue} setFinalResults={setFinalResults}/>
+      <SearchResultList finalResults={finalResults}/>
     </div>
   );
 }
