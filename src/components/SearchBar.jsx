@@ -13,17 +13,16 @@ function SearchBar({ setResults, setFieldsNames, onInputChange }) {
             value &&
             employee &&
             employee.name &&
-            employee.name.toLowerCase().includes(value)
+            employee.name.toLowerCase().includes(value.toLowerCase())
           );
         });
 
-        // Lấy tên các trường từ dữ liệu JSON và in ra console
         if (results.length > 0) {
           const fieldNames = Object.keys(results[0]);
           setFieldsNames(fieldNames);
         }
 
-        setResults(results); // Lưu kết quả lọc vào filteredResults
+        setResults(results);
         console.log(results);
       });
   };

@@ -21,7 +21,7 @@ function SearchResult({ fieldsNames, searchValue, setFinalResults }) {
         });
     };
 
-    fetchData(); // Gọi fetchData khi clickedFieldName hoặc searchValue thay đổi
+    fetchData();
   }, [clickedFieldName, searchValue]);
 
   const handleFieldNameClick = (fieldName) => {
@@ -33,7 +33,11 @@ function SearchResult({ fieldsNames, searchValue, setFinalResults }) {
       <div className="search-results">
         {fieldsNames.map((fieldsName, id) => {
           return (
-            <div key={id} onClick={() => handleFieldNameClick(fieldsName)}>
+            <div
+              style={{ marginBottom: 4 }}
+              key={id}
+              onClick={() => handleFieldNameClick(fieldsName)}
+            >
               Tìm kiếm <strong>{fieldsName}</strong> cho "{searchValue}"
             </div>
           );
