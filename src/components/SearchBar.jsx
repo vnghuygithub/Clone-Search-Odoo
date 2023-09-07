@@ -7,16 +7,15 @@ function SearchBar() {
     fieldNames: [],
     inputValues: [],
   });
-
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
-
   const [inputValues, setInputValues] = useState([]);
+  const [results, setResults] = useState([]);
 
   const handleChange = (event) => {
     const newInputValue = event.target.value;
     setInputValue(newInputValue);
-    fetchData(newInputValue);
+    fetchFieldNames(newInputValue);
 
     setInputValues([...inputValues, newInputValue]);
   };
@@ -63,16 +62,18 @@ function SearchBar() {
     const { fieldNames, inputValues } = selectedOptions;
     console.log("Selected Field Names:", fieldNames);
     console.log("Selected Input Values:", inputValues);
-    console.log("Selected Input Values:", selectedOptions);
+    console.log("Selected Options:", selectedOptions);
   }, [selectedOptions]);
 
-  const fetchData = (inputValue) => {
-    // const urls = selectedOptions.fieldNames.map((fieldName, index) => {
-    //   return `http://localhost:3000/employees?${fieldName}_like=${selectedOptions.searchValue[index]}`;
-    // });
-
+  // #1 call api
+  const fetchFieldNames = (inputValue) => {
     fetch("http://localhost:3000/employees")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((json) => {
         const results = json.filter((employee) => {
           return (
@@ -82,18 +83,56 @@ function SearchBar() {
             employee.name.toLowerCase().includes(inputValue)
           );
         });
+        console.log(results);
 
         if (results.length > 0) {
           const fieldNames = Object.keys(results[0]);
           console.log(fieldNames);
           setFieldNames(fieldNames);
         }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
       });
   };
+  useEffect(() => {
+    fetchFieldNames(inputValue);
+  }, []);
+
+  const combinedUrl = selectedOptions.fieldNames
+    .map((fieldName, index) => {
+      const inputValue = selectedOptions.inputValues[index];
+      return `${fieldName}_like=${inputValue}`;
+    })
+    .join("&");
+
+  const fullUrl = `http://localhost:3000/employees?${combinedUrl}`;
+  console.log(fullUrl);
+
+  const fetchData = (inputValue) => {
+    fetch(fullUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((json) => {
+        const results = json;
+        console.log(results);
+        setResults(results);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  };
+  useEffect(() => {
+    fetchData(inputValue);
+  }, [selectedOptions]);
 
   return (
     <>
-      <div style={{ display: "flex", width: "600px" }}>
+      <div style={{ display: "flex", width: "600px", top: 20 }}>
         <div className="tag-list" id="myTagList">
           {selectedOptions.fieldNames.map((selectedOption, index) => (
             <button
@@ -133,6 +172,25 @@ function SearchBar() {
           </li>
         ))}
       </ul>
+
+      <table style={{ marginTop: 20 }}>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Nationality</th>
+        </tr>
+        {results.map((result, index) => (
+          <tr key={index}>
+            <td>{result.name}</td>
+            <td>{result.age}</td>
+            <td>{result.phone}</td>
+            <td>{result.address}</td>
+            <td>{result.nationality}</td>
+          </tr>
+        ))}
+      </table>
     </>
   );
 }

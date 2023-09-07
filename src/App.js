@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar';
 
 function App() {
   return (
-    <div className='container' style={{ backgroundColor: 'grey', height: 500}}>
+    <div className='container' style={{ backgroundColor: 'white', height: 500}}>
       <SearchBar  />
     </div>
   );
