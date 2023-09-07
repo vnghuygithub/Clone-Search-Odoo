@@ -1,10 +1,30 @@
 input {
   border: black;
   background-color: antiquewhite;
-  width: 260px;
-  height: 30px;
+  width: auto;
+  height: 25px;
   font-size: 1.1rem;
-  border-radius: 6px;
   padding: 5px;
   outline: none;
+}
+ul {
+  padding: 0;
+  margin-top: 0;
+}
+li {
+  width: 590px;
+  background-color: aliceblue;
+  padding: 5px;
+  border-bottom: solid 1px #eee;
+  cursor: pointer;
+}
+
+/* .tag-list {
+} */
+
+.tag-item {
+  margin: 0;
+  height: 100%;
+  padding: 2px 6px;
+  cursor: pointer;
 }
